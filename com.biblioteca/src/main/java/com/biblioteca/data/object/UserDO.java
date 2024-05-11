@@ -1,53 +1,30 @@
-package com.biblioteca.data.model;
+package com.biblioteca.data.object;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+public class UserDO implements Serializable{
 
-@Entity
-@Table(name="user")
-public class User implements Serializable{
-		
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private Long id;
-	
-	@Column(name = "name", nullable = false, length = 128)
 	private String name;
-	
-	@Column(name = "library_id", nullable = false, unique = true, length = 128)
 	private String libraryID;
-	
 	// TO DO add some kind of security here
-	@Column(name = "library_passoword", nullable = false)
 	private String libraryPassoword;
-	
-	@Column(name = "items_taken")
-	private List<Book> itemsTaken;
-	
-	@Column(name = "reserved_items")
-	private List<Book> reservedItems;
-	
-	@Column(name = "fine_value", length = 16)
+	private List<BookDO> itemsTaken;
+	private List<BookDO> reservedItems;
 	private Double fineValue; // fine as in a bill, something you have to pay
 	
 
-	public User() {
+	public UserDO() {
 		
 	}
 
 
-	public User(Long id, String name, String libraryID, String libraryPassoword, List<Book> itemsTaken,
-			List<Book> reservedItems, Double fineValue) {
+	public UserDO(Long id, String name, String libraryID, String libraryPassoword, List<BookDO> itemsTaken,
+			List<BookDO> reservedItems, Double fineValue) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -89,22 +66,22 @@ public class User implements Serializable{
 	}
 
 
-	public List<Book> getItemsTaken() {
+	public List<BookDO> getItemsTaken() {
 		return itemsTaken;
 	}
 
 
-	public void setItemsTaken(List<Book> itemsTaken) {
+	public void setItemsTaken(List<BookDO> itemsTaken) {
 		this.itemsTaken = itemsTaken;
 	}
 
 
-	public List<Book> getReservedItems() {
+	public List<BookDO> getReservedItems() {
 		return reservedItems;
 	}
 
 
-	public void setReservedItems(List<Book> reservedItems) {
+	public void setReservedItems(List<BookDO> reservedItems) {
 		this.reservedItems = reservedItems;
 	}
 
@@ -143,13 +120,12 @@ public class User implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		UserDO other = (UserDO) obj;
 		return Objects.equals(fineValue, other.fineValue) && Objects.equals(id, other.id)
 				&& Objects.equals(itemsTaken, other.itemsTaken) && Objects.equals(libraryID, other.libraryID)
 				&& Objects.equals(libraryPassoword, other.libraryPassoword) && Objects.equals(name, other.name)
 				&& Objects.equals(reservedItems, other.reservedItems);
 	}
-	
 	
 	
 	
