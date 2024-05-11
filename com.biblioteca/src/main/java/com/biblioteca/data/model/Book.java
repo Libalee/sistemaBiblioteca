@@ -1,6 +1,7 @@
 package com.biblioteca.data.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -29,24 +30,33 @@ public class Book implements Serializable {
 	@Column(name = "volume", nullable = false, length = 8)
 	private Integer volume;
 	
-	@Column(name = "identification_code", nullable = false, length = 256)
-	private Double identificationCode;
+	@Column(name = "avaliable", nullable = false)
+	private boolean avaliable;
 	
-	@Column(name = "number_of_items", nullable = false, length = 8)
-	private Integer numberOfItems;
+	@Column(name = "borrowing_date", nullable = false)
+	private Date borrowingDate;
+	
+	@Column(name = "return_date", nullable = false)
+	private Date returnDate;
+	
+	@Column(name = "reserved", nullable = false)
+	private boolean reserved;
 
 	public Book() {
 		
 	}
-	
-	public Book(Long id, String name, String autor, Integer volume, Double identificationCode, Integer numberOfItems) {
+
+	public Book(Long id, String name, String autor, Integer volume, boolean avaliable, Date borrowingDate,
+			Date returnDate, boolean reserved) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.autor = autor;
 		this.volume = volume;
-		this.identificationCode = identificationCode;
-		this.numberOfItems = numberOfItems;
+		this.avaliable = avaliable;
+		this.borrowingDate = borrowingDate;
+		this.returnDate = returnDate;
+		this.reserved = reserved;
 	}
 
 	public String getName() {
@@ -73,20 +83,40 @@ public class Book implements Serializable {
 		this.volume = volume;
 	}
 
-	public Double getIdentificationCode() {
-		return identificationCode;
+	public boolean isAvaliable() {
+		return avaliable;
 	}
 
-	public void setIdentificationCode(Double identificationCode) {
-		this.identificationCode = identificationCode;
+	public void setAvaliable(boolean avaliable) {
+		this.avaliable = avaliable;
 	}
 
-	public Integer getNumberOfItems() {
-		return numberOfItems;
+	public Date getBorrowingDate() {
+		return borrowingDate;
 	}
 
-	public void setNumberOfItems(Integer numberOfItems) {
-		this.numberOfItems = numberOfItems;
+	public void setBorrowingDate(Date borrowingDate) {
+		this.borrowingDate = borrowingDate;
+	}
+
+	public Date getReturnDate() {
+		return returnDate;
+	}
+
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
+	}
+
+	public boolean isReserved() {
+		return reserved;
+	}
+
+	public void setReserved(boolean reserved) {
+		this.reserved = reserved;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public Long getId() {
@@ -95,7 +125,7 @@ public class Book implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(autor, id, identificationCode, name, numberOfItems, volume);
+		return Objects.hash(autor, avaliable, borrowingDate, id, name, reserved, returnDate, volume);
 	}
 
 	@Override
@@ -107,10 +137,12 @@ public class Book implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Book other = (Book) obj;
-		return Objects.equals(autor, other.autor) && Objects.equals(id, other.id)
-				&& Objects.equals(identificationCode, other.identificationCode) && Objects.equals(name, other.name)
-				&& Objects.equals(numberOfItems, other.numberOfItems) && Objects.equals(volume, other.volume);
+		return Objects.equals(autor, other.autor) && avaliable == other.avaliable
+				&& Objects.equals(borrowingDate, other.borrowingDate) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name) && reserved == other.reserved
+				&& Objects.equals(returnDate, other.returnDate) && Objects.equals(volume, other.volume);
 	}
+	
 	
 	
 }

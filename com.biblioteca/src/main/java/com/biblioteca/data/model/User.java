@@ -27,27 +27,27 @@ public class User implements Serializable{
 	@Column(name = "library_id", nullable = false, length = 128)
 	private String libraryID;
 	
-	// TO-DO add some kind of security here
+	// TO DO add some kind of security here
 	@Column(name = "library_passoword", nullable = false)
 	private String libraryPassoword;
 	
 	@Column(name = "items_taken")
-	private List<LibraryItem> itemsTaken;
+	private List<Book> itemsTaken;
 	
 	@Column(name = "reserved_items")
-	private List<LibraryItem> reservedItems;
+	private List<Book> reservedItems;
 	
-	@Column(name = "type_of_user", nullable = false)
-	private String typeOfUser;
+	@Column(name = "fine_value", length = 16)
+	private Double fineValue; // fine as in a bill, something you have to pay
+	
 
 	public User() {
 		
 	}
-	
-	
-	
-	public User(Long id, String name, String libraryID, String libraryPassoword, List<LibraryItem> itemsTaken,
-			List<LibraryItem> reservedItems, String typeOfUser) {
+
+
+	public User(Long id, String name, String libraryID, String libraryPassoword, List<Book> itemsTaken,
+			List<Book> reservedItems, Double fineValue) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -55,7 +55,72 @@ public class User implements Serializable{
 		this.libraryPassoword = libraryPassoword;
 		this.itemsTaken = itemsTaken;
 		this.reservedItems = reservedItems;
-		this.typeOfUser = typeOfUser;
+		this.fineValue = fineValue;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getLibraryID() {
+		return libraryID;
+	}
+
+
+	public void setLibraryID(String libraryID) {
+		this.libraryID = libraryID;
+	}
+
+
+	public String getLibraryPassoword() {
+		return libraryPassoword;
+	}
+
+
+	public void setLibraryPassoword(String libraryPassoword) {
+		this.libraryPassoword = libraryPassoword;
+	}
+
+
+	public List<Book> getItemsTaken() {
+		return itemsTaken;
+	}
+
+
+	public void setItemsTaken(List<Book> itemsTaken) {
+		this.itemsTaken = itemsTaken;
+	}
+
+
+	public List<Book> getReservedItems() {
+		return reservedItems;
+	}
+
+
+	public void setReservedItems(List<Book> reservedItems) {
+		this.reservedItems = reservedItems;
+	}
+
+
+	public Double getFineValue() {
+		return fineValue;
+	}
+
+
+	public void setFineValue(Double fineValue) {
+		this.fineValue = fineValue;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 
@@ -63,61 +128,11 @@ public class User implements Serializable{
 		return id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLibraryID() {
-		return libraryID;
-	}
-
-	public void setLibraryID(String libraryID) {
-		this.libraryID = libraryID;
-	}
-
-	public String getLibraryPassoword() {
-		return libraryPassoword;
-	}
-
-	public void setLibraryPassoword(String libraryPassoword) {
-		this.libraryPassoword = libraryPassoword;
-	}
-
-	public List<LibraryItem> getItemsTaken() {
-		return itemsTaken;
-	}
-
-	public void setItemsTaken(List<LibraryItem> itemsTaken) {
-		this.itemsTaken = itemsTaken;
-	}
-
-	public List<LibraryItem> getReservedItems() {
-		return reservedItems;
-	}
-
-	public void setReservedItems(List<LibraryItem> reservedItems) {
-		this.reservedItems = reservedItems;
-	}
-
-	public String getTypeOfUser() {
-		return typeOfUser;
-	}
-
-
-	public void setTypeOfUser(String typeOfUser) {
-		this.typeOfUser = typeOfUser;
-	}
-
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, itemsTaken, libraryID, libraryPassoword, name, reservedItems, typeOfUser);
+		return Objects.hash(fineValue, id, itemsTaken, libraryID, libraryPassoword, name, reservedItems);
 	}
-
 
 
 	@Override
@@ -129,11 +144,12 @@ public class User implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(id, other.id) && Objects.equals(itemsTaken, other.itemsTaken)
-				&& Objects.equals(libraryID, other.libraryID)
+		return Objects.equals(fineValue, other.fineValue) && Objects.equals(id, other.id)
+				&& Objects.equals(itemsTaken, other.itemsTaken) && Objects.equals(libraryID, other.libraryID)
 				&& Objects.equals(libraryPassoword, other.libraryPassoword) && Objects.equals(name, other.name)
-				&& Objects.equals(reservedItems, other.reservedItems) && Objects.equals(typeOfUser, other.typeOfUser);
+				&& Objects.equals(reservedItems, other.reservedItems);
 	}
+	
 	
 	
 	
