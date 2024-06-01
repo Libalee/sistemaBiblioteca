@@ -9,7 +9,8 @@ public class UserDO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String name;
+	private String firstName;
+	private String lastName;
 	private String libraryID;
 	// TO DO add some kind of security here
 	private String libraryPassoword;
@@ -22,12 +23,12 @@ public class UserDO implements Serializable{
 		
 	}
 
-
-	public UserDO(Long id, String name, String libraryID, String libraryPassoword, List<BookDO> itemsTaken,
-			List<BookDO> reservedItems, Double fineValue) {
+	public UserDO(Long id, String firstName, String lastName, String libraryID, String libraryPassoword,
+			List<BookDO> itemsTaken, List<BookDO> reservedItems, Double fineValue) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.libraryID = libraryID;
 		this.libraryPassoword = libraryPassoword;
 		this.itemsTaken = itemsTaken;
@@ -35,16 +36,21 @@ public class UserDO implements Serializable{
 		this.fineValue = fineValue;
 	}
 
-
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
 	public String getLibraryID() {
 		return libraryID;
@@ -105,12 +111,10 @@ public class UserDO implements Serializable{
 		return id;
 	}
 
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(fineValue, id, itemsTaken, libraryID, libraryPassoword, name, reservedItems);
+		return Objects.hash(fineValue, firstName, id, itemsTaken, lastName, libraryID, libraryPassoword, reservedItems);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -121,12 +125,13 @@ public class UserDO implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		UserDO other = (UserDO) obj;
-		return Objects.equals(fineValue, other.fineValue) && Objects.equals(id, other.id)
-				&& Objects.equals(itemsTaken, other.itemsTaken) && Objects.equals(libraryID, other.libraryID)
-				&& Objects.equals(libraryPassoword, other.libraryPassoword) && Objects.equals(name, other.name)
+		return Objects.equals(fineValue, other.fineValue) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(id, other.id) && Objects.equals(itemsTaken, other.itemsTaken)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(libraryID, other.libraryID)
+				&& Objects.equals(libraryPassoword, other.libraryPassoword)
 				&& Objects.equals(reservedItems, other.reservedItems);
 	}
-	
-	
+
+
 	
 }
