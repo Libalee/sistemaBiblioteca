@@ -1,27 +1,52 @@
-package com.biblioteca.data.object;
+package com.biblioteca.testMyModelMapper;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
-public class BookDO implements Serializable {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "book")
+public class Book implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name = "name", nullable = false, length = 256)
 	private String name;
+	
+	@Column(name = "autor", nullable = false, length = 128)
 	private String autor;
+	
+	@Column(name = "volume", nullable = false, length = 8)
 	private Integer volume;
+	
+	@Column(name = "avaliable", nullable = false)
 	private boolean avaliable;
+	
+	@Column(name = "borrowing_date", nullable = false)
 	private Date borrowingDate;
+	
+	@Column(name = "return_date", nullable = false)
 	private Date returnDate;
+	
+	@Column(name = "reserved", nullable = false)
 	private boolean reserved;
 
-	public BookDO() {
+	public Book() {
 		
 	}
 
-	public BookDO(Long id, String name, String autor, Integer volume, boolean avaliable, Date borrowingDate,
+	public Book(Long id, String name, String autor, Integer volume, boolean avaliable, Date borrowingDate,
 			Date returnDate, boolean reserved) {
 		super();
 		this.id = id;
@@ -97,9 +122,9 @@ public class BookDO implements Serializable {
 	public Long getId() {
 		return id;
 	}
+	
+	
 
-	
-	
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -117,13 +142,13 @@ public class BookDO implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BookDO other = (BookDO) obj;
+		Book other = (Book) obj;
 		return Objects.equals(autor, other.autor) && avaliable == other.avaliable
 				&& Objects.equals(borrowingDate, other.borrowingDate) && Objects.equals(id, other.id)
 				&& Objects.equals(name, other.name) && reserved == other.reserved
 				&& Objects.equals(returnDate, other.returnDate) && Objects.equals(volume, other.volume);
 	}
-
+	
 	
 	
 }

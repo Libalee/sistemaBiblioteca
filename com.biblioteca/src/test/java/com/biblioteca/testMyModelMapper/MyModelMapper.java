@@ -1,10 +1,7 @@
-package com.biblioteca.converter;
+package com.biblioteca.testMyModelMapper;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-
-import com.biblioteca.data.model.Book;
-import com.biblioteca.data.object.BookDO;
 
 public class MyModelMapper {
 	

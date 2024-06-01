@@ -129,6 +129,13 @@ public class User implements Serializable{
 	}
 
 
+	
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(fineValue, id, itemsTaken, libraryID, libraryPassoword, name, reservedItems);

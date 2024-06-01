@@ -1,4 +1,4 @@
-package com.biblioteca.data.object;
+package com.biblioteca.testMyModelMapper;
 
 import java.io.Serializable;
 import java.sql.Date;
