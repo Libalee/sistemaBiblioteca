@@ -51,6 +51,10 @@ public class UserDO implements Serializable{
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
+	public String getFullName() {
+		return getFirstName().concat(" " + getLastName());
+	}
 
 	public String getLibraryID() {
 		return libraryID;

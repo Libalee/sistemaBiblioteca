@@ -67,6 +67,14 @@ public class User implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getFirstName() {
+		return getName().split(" ")[0];
+	}
+	
+	public String getLastName() {
+		return getName().split(" ", 1)[1];
+	}
 
 
 	public String getLibraryID() {
