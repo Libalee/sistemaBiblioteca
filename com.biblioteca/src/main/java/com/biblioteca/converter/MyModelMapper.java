@@ -13,6 +13,10 @@ import com.biblioteca.data.object.UserDO;
 
 public class MyModelMapper {
 	
+	// Initializing ModelMapper and the typeMaps
+	// For more information read ModelMapper documentation
+	// http://modelmapper.org/javadoc/
+	// http://modelmapper.org/javadoc/org/modelmapper/TypeMap.html
 	ModelMapper mapper = new ModelMapper();
 	TypeMap<BookDO, Book> typeMapBookDOToBook = mapper.emptyTypeMap(BookDO.class, Book.class);
 	TypeMap<Book, BookDO> typeMapBookToBookDO = mapper.emptyTypeMap(Book.class, BookDO.class);
@@ -20,6 +24,8 @@ public class MyModelMapper {
 	TypeMap<User, UserDO> typeMapUserToUserDO = mapper.emptyTypeMap(User.class, UserDO.class);
 	
 	public MyModelMapper() {
+		// Setting up the converter from BookDO to Book
+		// Done by linking a getter from BookDO to a setter from Book
 		typeMapBookDOToBook.addMapping(BookDO::getAutor, Book::setAutor)
 							.addMapping(BookDO::getBorrowingDate, Book::setBorrowingDate)
 							.addMapping(BookDO::getReturnDate, Book::setReturnDate)
@@ -29,6 +35,7 @@ public class MyModelMapper {
 							.addMapping(BookDO::isAvaliable, Book::setAvaliable)
 							.addMapping(BookDO::isReserved, Book::setReserved);
 		
+		// Setting up the converter from Book to BookDO
 		typeMapBookToBookDO.addMapping(Book::getAutor, BookDO::setAutor)
 							.addMapping(Book::getBorrowingDate, BookDO::setBorrowingDate)
 							.addMapping(Book::getReturnDate, BookDO::setReturnDate)
@@ -38,6 +45,7 @@ public class MyModelMapper {
 							.addMapping(Book::isAvaliable, BookDO::setAvaliable)
 							.addMapping(Book::isReserved, BookDO::setReserved);
 		
+		// Setting up the converter from UserDO to User
 		typeMapUserDOToUser.addMapping(UserDO::getFullName, User::setName)
 							.addMapping(UserDO::getId, User::setId)
 							.addMapping(UserDO::getLibraryID, User::setLibraryID)
@@ -46,6 +54,7 @@ public class MyModelMapper {
 							.addMapping(UserDO::getItemsTaken, User::setItemsTaken)
 							.addMapping(UserDO::getReservedItems, User::setReservedItems);
 		
+		// Setting up the converter from User to UserDO
 		typeMapUserToUserDO.addMapping(User::getFirstName, UserDO::setFirstName)
 							.addMapping(User::getLastName, UserDO::setLastName)
 							.addMapping(User::getId, UserDO::setId)
@@ -56,30 +65,36 @@ public class MyModelMapper {
 							
 	}
 	
+	// Generic Method to convert origin from destination
 	public <O, D> D parseObject(O origin, Class<D> destination) {
 		return mapper.map(origin, destination);
 	}
 	
+	// Method for converting a BookDO to Book
 	public Book parseBookDOToBook(BookDO origin, Class<Book> destination) {
 		Book book = mapper.map(origin, destination);
 		return book;
 	}
 	
+	// Method for converting a Book to BookDO
 	public BookDO parseBookToBookDO(Book origin, Class<BookDO> destination) {
 		BookDO bookDO = mapper.map(origin, destination);
 		return bookDO;
 	}
 	
+	// Method for converting a UserDO to User
 	public User parseUserDOToUser(UserDO origin, Class<User> destination) {
 		User user = mapper.map(origin, destination);
 		return user;
 	}
 	
+	// Method for converting a User to UserDO
 	public UserDO parseUserToUserDO(User origin, Class<UserDO> destination) {
 		UserDO userDO = mapper.map(origin, destination);
 		return userDO;
 	}
 	
+	// Method for converting a generic List of O to a generic list of D
 	public <O, D> List<D> parseList(List<O> origin, Class<D> destination) {
 		List<D> list = new ArrayList<>();
 		for(O o: origin) {
@@ -88,6 +103,7 @@ public class MyModelMapper {
 		return list;
 	}
 	
+	// Method for converting a List of BookDO to List of Book
 	public List<Book> parseListBook(List<BookDO> origin, Class<Book> destination) {
 		List<Book> books = new ArrayList<>();
 		for(BookDO bookDO: origin) {
@@ -96,6 +112,7 @@ public class MyModelMapper {
 		return books;
 	}
 	
+	// Method for converting a List of Book to List of BookDO
 	public List<BookDO> parseListBookDO(List<Book> origin, Class<BookDO> destination) {
 		List<BookDO> bookDOs = new ArrayList<>();
 		for(Book book: origin) {
@@ -104,6 +121,7 @@ public class MyModelMapper {
 		return bookDOs;
 	}
 	
+	// Method for converting a List of UserDO to List of User
 	public List<User> parseListUser(List<UserDO> origin, Class<User> destination) {
 		List<User> users = new ArrayList<>();
 		for(UserDO userDO: origin) {
@@ -112,6 +130,7 @@ public class MyModelMapper {
 		return users;
 	}
 	
+	// Method for converting a List of User to List of UserDO
 	public List<UserDO> parseListUserDO(List<User> origin, Class<UserDO> destination) {
 		List<UserDO> userDOs = new ArrayList<>();
 		for(User user: origin) {
