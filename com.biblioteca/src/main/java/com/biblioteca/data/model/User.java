@@ -73,7 +73,7 @@ public class User implements Serializable{
 	}
 	
 	public String getLastName() {
-		return getName().split(" ", 1)[1];
+		return getName().split(" ", 2)[1];
 	}
 
 

@@ -106,37 +106,49 @@ public class MyModelMapper {
 	// Method for converting a List of BookDO to List of Book
 	public List<Book> parseListBook(List<BookDO> origin, Class<Book> destination) {
 		List<Book> books = new ArrayList<>();
-		for(BookDO bookDO: origin) {
-			books.add(parseBookDOToBook(bookDO, destination));
+		if(origin != null) {
+			for(BookDO bookDO: origin) {
+				books.add(parseBookDOToBook(bookDO, destination));
+			}
+			return books;
 		}
-		return books;
+		return null;
 	}
 	
 	// Method for converting a List of Book to List of BookDO
 	public List<BookDO> parseListBookDO(List<Book> origin, Class<BookDO> destination) {
 		List<BookDO> bookDOs = new ArrayList<>();
-		for(Book book: origin) {
-			bookDOs.add(parseBookToBookDO(book, destination));
+		if(origin != null) {
+			for(Book book: origin) {
+				bookDOs.add(parseBookToBookDO(book, destination));
+			}
+			return bookDOs;
 		}
-		return bookDOs;
+		return null;
 	}
 	
 	// Method for converting a List of UserDO to List of User
 	public List<User> parseListUser(List<UserDO> origin, Class<User> destination) {
 		List<User> users = new ArrayList<>();
-		for(UserDO userDO: origin) {
-			users.add(parseUserDOToUser(userDO, destination));
+		if(origin != null) {
+			for(UserDO userDO: origin) {
+				users.add(parseUserDOToUser(userDO, destination));
+			}
+			return users;
 		}
-		return users;
+		return null;
 	}
 	
 	// Method for converting a List of User to List of UserDO
 	public List<UserDO> parseListUserDO(List<User> origin, Class<UserDO> destination) {
-		List<UserDO> userDOs = new ArrayList<>();
-		for(User user: origin) {
-			userDOs.add(parseUserToUserDO(user, destination));
+		if(origin != null) {
+			List<UserDO> userDOs = new ArrayList<>();
+			for(User user: origin) {
+				userDOs.add(parseUserToUserDO(user, destination));
+			}
+			return userDOs;
 		}
-		return userDOs;
+		return null;
 	}
 	
 	

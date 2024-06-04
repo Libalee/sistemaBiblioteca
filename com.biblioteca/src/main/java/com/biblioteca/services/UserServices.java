@@ -39,7 +39,7 @@ public class UserServices {
 		user.setLibraryPassoword(userDO.getLibraryPassoword());
 		user.setName(userDO.getFullName());
 		
-		return userDO;
+		return mapper.parseUserToUserDO(user, UserDO.class);
 	}
 	
 	public void delete(Long Id) {
