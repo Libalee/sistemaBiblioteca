@@ -31,7 +31,7 @@ public class MyModelMapper {
 								.addMapping(BookDO::getReturnDate, Book::setReturnDate)
 								.addMapping(BookDO::getName, Book::setName)
 								.addMapping(BookDO::getVolume, Book::setVolume)
-								.addMapping(BookDO::getId, Book::setId)
+								.addMapping(BookDO::getKey, Book::setId)
 								.addMapping(BookDO::isAvaliable, Book::setAvaliable)
 								.addMapping(BookDO::isReserved, Book::setReserved);
 			
@@ -39,7 +39,7 @@ public class MyModelMapper {
 			typeMapBookToBookDO.addMapping(Book::getAutor, BookDO::setAutor)
 								.addMapping(Book::getBorrowingDate, BookDO::setBorrowingDate)
 								.addMapping(Book::getReturnDate, BookDO::setReturnDate)
-								.addMapping(Book::getId, BookDO::setId)
+								.addMapping(Book::getId, BookDO::setKey)
 								.addMapping(Book::getName, BookDO::setName) 
 								.addMapping(Book::getVolume, BookDO::setVolume)
 								.addMapping(Book::isAvaliable, BookDO::setAvaliable)
@@ -47,7 +47,7 @@ public class MyModelMapper {
 			
 			// Setting up the converter from UserDO to User
 			typeMapUserDOToUser.addMapping(UserDO::getFullName, User::setName)
-								.addMapping(UserDO::getId, User::setId)
+								.addMapping(UserDO::getKey, User::setId)
 								.addMapping(UserDO::getLibraryID, User::setLibraryID)
 								.addMapping(UserDO::getLibraryPassoword, User::setLibraryPassoword)
 								.addMapping(UserDO::getFineValue, User::setFineValue)
@@ -57,7 +57,7 @@ public class MyModelMapper {
 			// Setting up the converter from User to UserDO
 			typeMapUserToUserDO.addMapping(User::getFirstName, UserDO::setFirstName)
 								.addMapping(User::getLastName, UserDO::setLastName)
-								.addMapping(User::getId, UserDO::setId)
+								.addMapping(User::getId, UserDO::setKey)
 								.addMapping(User::getLibraryID, UserDO::setLibraryID)
 								.addMapping(User::getLibraryPassoword, UserDO::setLibraryPassoword)
 								.addMapping(User::getItemsTaken, UserDO::setItemsTaken)

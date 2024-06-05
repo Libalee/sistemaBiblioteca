@@ -1,8 +1,11 @@
 package com.biblioteca.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Service;
 
+import com.biblioteca.controller.BookController;
 import com.biblioteca.converter.MyModelMapper;
 import com.biblioteca.data.model.Book;
 import com.biblioteca.data.object.BookDO;
@@ -19,17 +22,23 @@ public class BookServices {
 	public BookDO create(BookDO bookDO) {
 		Book entity = mapper.parseBookDOToBook(bookDO, Book.class);
 		bookRepository.save(entity);
+		
+		bookDO.add(linkTo(methodOn(BookController.class).findById(entity.getId().toString())).withSelfRel());
+		
 		return bookDO;
 	}
 	
 	public BookDO findbyID(Long Id) {
 		var entity = bookRepository.findById(Id).orElseThrow();
+		
 		BookDO bookDO = mapper.parseBookToBookDO(entity, BookDO.class);
+		bookDO.add(linkTo(methodOn(BookController.class).findById(entity.getId().toString())).withSelfRel());
+		
 		return bookDO;
 	}
 	
 	public BookDO uptade(BookDO bookDO) {
-		Book book = bookRepository.getReferenceById(bookDO.getId());
+		Book book = bookRepository.getReferenceById(bookDO.getKey());
 		
 		book.setAutor(bookDO.getAutor());
 		book.setAvaliable(bookDO.isAvaliable());
@@ -39,8 +48,11 @@ public class BookServices {
 		book.setReturnDate(bookDO.getReturnDate());
 		book.setVolume(bookDO.getVolume());
 		
+		BookDO bookDO2 = mapper.parseBookToBookDO(bookRepository.save(book), BookDO.class) ;
 		
-		return bookDO;
+		bookDO2.add(linkTo(methodOn(BookController.class).findById(book.getId().toString())).withSelfRel());
+		
+		return bookDO2;
 	}
 	
 	public void Delete(Long id) {

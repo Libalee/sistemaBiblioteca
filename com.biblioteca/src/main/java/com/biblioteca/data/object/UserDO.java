@@ -4,18 +4,30 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class UserDO implements Serializable{
+import org.springframework.hateoas.RepresentationModel;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	@JsonProperty("id")
+	private Long key;
+	@JsonProperty("first_name")
 	private String firstName;
+	@JsonProperty("last_name")
 	private String lastName;
+	@JsonProperty("library_id")
 	private String libraryID;
 	// TO DO add some kind of security here
+	@JsonProperty("library_password")
 	private String libraryPassoword;
+	@JsonProperty("items_taken")
 	private List<BookDO> itemsTaken;
+	@JsonProperty("reserved_items")
 	private List<BookDO> reservedItems;
+	@JsonProperty("fine_value")
 	private Double fineValue; // fine as in a bill, something you have to pay
 	
 
@@ -23,10 +35,10 @@ public class UserDO implements Serializable{
 		
 	}
 
-	public UserDO(Long id, String firstName, String lastName, String libraryID, String libraryPassoword,
+	public UserDO(Long key, String firstName, String lastName, String libraryID, String libraryPassoword,
 			List<BookDO> itemsTaken, List<BookDO> reservedItems, Double fineValue) {
 		super();
-		this.id = id;
+		this.key = key;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.libraryID = libraryID;
@@ -110,38 +122,40 @@ public class UserDO implements Serializable{
 		return serialVersionUID;
 	}
 
-
-	public Long getId() {
-		return id;
+	public Long getKey() {
+		return key;
 	}
-	
-	
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Long key) {
+		this.key = key;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(fineValue, firstName, id, itemsTaken, lastName, libraryID, libraryPassoword, reservedItems);
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(fineValue, firstName, itemsTaken, key, lastName, libraryID,
+				libraryPassoword, reservedItems);
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		UserDO other = (UserDO) obj;
 		return Objects.equals(fineValue, other.fineValue) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(id, other.id) && Objects.equals(itemsTaken, other.itemsTaken)
+				&& Objects.equals(itemsTaken, other.itemsTaken) && Objects.equals(key, other.key)
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(libraryID, other.libraryID)
 				&& Objects.equals(libraryPassoword, other.libraryPassoword)
 				&& Objects.equals(reservedItems, other.reservedItems);
 	}
 
+	
 
 	
 }
