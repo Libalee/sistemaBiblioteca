@@ -165,7 +165,4 @@ public class User implements Serializable{
 				&& Objects.equals(reservedItems, other.reservedItems);
 	}
 	
-	
-	
-	
 }

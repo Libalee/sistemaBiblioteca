@@ -1,6 +1,7 @@
 package com.biblioteca.data.object;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +30,8 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 	private List<BookDO> reservedItems;
 	@JsonProperty("fine_value")
 	private Double fineValue; // fine as in a bill, something you have to pay
+	
+	private Double dailyFineValue = 1.0; // The value of the fine for late books.
 	
 
 	public UserDO() {
@@ -155,7 +158,70 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 				&& Objects.equals(reservedItems, other.reservedItems);
 	}
 
+	// Check if there are changes made to the bookDO given to see if the operation was successful
+	public BookDO borrowBook(BookDO bookDO) {
+		
+		if(bookDO.isAvaliable() && !(bookDO.isReserved())) {
+			this.itemsTaken.add(bookDO);
+			bookDO.setAvaliable(false);
+			bookDO.setReserved(false);
+			// getting current system time to add to the borrowing date
+			Long millis = System.currentTimeMillis();
+			Date date = new Date(millis);
+			bookDO.setBorrowingDate(date);
+			// return date is 15 days after borrowing
+			// a variable could be put into the BookDO object called here in case different return times are needed
+			bookDO.setReturnDate(bookDO.getReturnDate().valueOf(
+					bookDO.getReturnDate().toLocalDate().plusDays(15L)));
+		}
+		
+		return bookDO;
+	}
 	
-
+	// Check if there are changes made to the bookDO given to see if the operation was successful
+	public BookDO returnBook(BookDO bookDO) {
+		// verifies if any of the list's objects match with the given object
+		if(this.itemsTaken.stream().anyMatch(s -> s.equals(bookDO))) {
+			this.itemsTaken.remove(bookDO);
+			
+			bookDO.setAvaliable(true);
+			bookDO.setBorrowingDate(null);
+			
+			Long millis = System.currentTimeMillis();
+			Date date = new Date(millis);
+			// Checking if the return date is due
+			if(bookDO.getReturnDate().after(date)) {
+				this.fineValue = this.dailyFineValue * bookDO.getReturnDate().compareTo(date);
+				bookDO.setReturnDate(null);
+			} else {
+				bookDO.setReturnDate(null);
+			}
+		}
+		
+		return bookDO;
+	}
+	
+	// Check if there are changes made to the bookDO given to see if the operation was successful
+	public BookDO reserveBook(BookDO bookDO) {
+		// Checks if the bookDO isn't reserved
+		if(!(bookDO.isReserved())) {
+			this.reservedItems.add(bookDO);
+			bookDO.setReserved(true);
+		}
+		
+		return bookDO;
+	}
+	
+	// Check if there are changes made to the BookDO given to see if the operation was successful
+	public BookDO unReserveBook(BookDO bookDO) {
+		
+		// verifies if any of the list's objects match with the given object
+		if(this.reservedItems.stream().anyMatch(s -> s.equals(bookDO))) {
+			this.reservedItems.remove(bookDO);
+			bookDO.setReserved(false);
+		}
+		
+		return bookDO;
+	}
 	
 }
