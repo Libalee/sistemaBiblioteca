@@ -2,6 +2,7 @@ package com.biblioteca.data.object;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -162,7 +163,10 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 	public BookDO borrowBook(BookDO bookDO) {
 		
 		if(bookDO.isAvaliable() && !(bookDO.isReserved())) {
-			this.itemsTaken.add(bookDO);
+			List<BookDO> list = getItemsTaken();
+			list.add(bookDO);
+			setItemsTaken(list);
+			
 			bookDO.setAvaliable(false);
 			bookDO.setReserved(false);
 			// getting current system time to add to the borrowing date
@@ -171,8 +175,8 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 			bookDO.setBorrowingDate(date);
 			// return date is 15 days after borrowing
 			// a variable could be put into the BookDO object called here in case different return times are needed
-			bookDO.setReturnDate(bookDO.getReturnDate().valueOf(
-					bookDO.getReturnDate().toLocalDate().plusDays(15L)));
+			bookDO.setReturnDate(bookDO.getBorrowingDate().valueOf(
+					bookDO.getBorrowingDate().toLocalDate().plusDays(15L)));
 		}
 		
 		return bookDO;

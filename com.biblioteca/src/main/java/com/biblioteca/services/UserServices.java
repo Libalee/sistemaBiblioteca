@@ -49,11 +49,9 @@ public class UserServices {
 		user.setLibraryPassoword(userDO.getLibraryPassoword());
 		user.setName(userDO.getFullName());
 		
-		UserDO userDO2 = mapper.parseUserToUserDO(userRepository.save(user), UserDO.class);
+		userDO.add(linkTo(methodOn(UserController.class).findById(user.getId().toString())).withSelfRel());
 		
-		userDO2.add(linkTo(methodOn(UserController.class).findById(user.getId().toString())).withSelfRel());
-		
-		return userDO2;
+		return userDO;
 	}
 	
 	public void delete(Long Id) {
