@@ -160,49 +160,56 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 	}
 
 	// Check if there are changes made to the bookDO given to see if the operation was successful
-	public BookDO borrowBook(BookDO bookDO) {
+	public List<BookDO> borrowBook(List<BookDO> bookDOs) {
 		
-		if(bookDO.isAvaliable() && !(bookDO.isReserved())) {
-			List<BookDO> list = getItemsTaken();
-			list.add(bookDO);
-			setItemsTaken(list);
-			
-			bookDO.setAvaliable(false);
-			bookDO.setReserved(false);
-			// getting current system time to add to the borrowing date
-			Long millis = System.currentTimeMillis();
-			Date date = new Date(millis);
-			bookDO.setBorrowingDate(date);
-			// return date is 15 days after borrowing
-			// a variable could be put into the BookDO object called here in case different return times are needed
-			bookDO.setReturnDate(bookDO.getBorrowingDate().valueOf(
-					bookDO.getBorrowingDate().toLocalDate().plusDays(15L)));
-		}
-		
-		return bookDO;
-	}
-	
-	// Check if there are changes made to the bookDO given to see if the operation was successful
-	public BookDO returnBook(BookDO bookDO) {
-		// verifies if any of the list's objects match with the given object
-		if(this.itemsTaken.stream().anyMatch(s -> s.equals(bookDO))) {
-			this.itemsTaken.remove(bookDO);
-			
-			bookDO.setAvaliable(true);
-			bookDO.setBorrowingDate(null);
-			
-			Long millis = System.currentTimeMillis();
-			Date date = new Date(millis);
-			// Checking if the return date is due
-			if(bookDO.getReturnDate().after(date)) {
-				this.fineValue = this.dailyFineValue * bookDO.getReturnDate().compareTo(date);
-				bookDO.setReturnDate(null);
-			} else {
-				bookDO.setReturnDate(null);
+		for(BookDO bookDO: bookDOs) {
+			if(bookDO.isAvaliable() && !(bookDO.isReserved())) {
+				List<BookDO> list = getItemsTaken();
+				list.add(bookDO);
+				setItemsTaken(list);
+				
+				bookDO.setAvaliable(false);
+				bookDO.setReserved(false);
+				// getting current system time to add to the borrowing date
+				Long millis = System.currentTimeMillis();
+				Date date = new Date(millis);
+				bookDO.setBorrowingDate(date);
+				// return date is 15 days after borrowing
+				// a variable could be put into the BookDO object called here in case different return times are needed
+				bookDO.setReturnDate(bookDO.getBorrowingDate().valueOf(
+						bookDO.getBorrowingDate().toLocalDate().plusDays(15L)));
 			}
 		}
 		
-		return bookDO;
+		return bookDOs;
+	}
+	
+	// Check if there are changes made to the bookDO given to see if the operation was successful
+	public List<BookDO> returnBook(List<BookDO> bookDOs) {
+		// verifies if any of the itemsTaken's objects match with the given object
+		
+		List<BookDO> returnedBooks = new ArrayList<>();
+		
+		for(BookDO bookDO: this.itemsTaken) {
+			if(!(bookDOs.contains(bookDO))) {
+				bookDO.setAvaliable(true);
+				bookDO.setBorrowingDate(null);
+				
+				Long millis = System.currentTimeMillis();
+				Date date = new Date(millis);
+				// Checking if the return date is due
+				if(bookDO.getReturnDate().before(date)) {
+					this.fineValue = this.dailyFineValue * bookDO.getReturnDate().compareTo(date);
+					bookDO.setReturnDate(null);
+				} else {
+					bookDO.setReturnDate(null);
+				}
+				returnedBooks.add(bookDO);
+			}
+		}
+		this.itemsTaken.removeAll(returnedBooks);
+		
+		return returnedBooks;
 	}
 	
 	// Check if there are changes made to the bookDO given to see if the operation was successful

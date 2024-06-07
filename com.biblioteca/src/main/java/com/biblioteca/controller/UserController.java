@@ -70,15 +70,19 @@ public class UserController {
 		if(entity.getItemsTaken() == null) {
 			List<BookDO> l = new ArrayList<>();
 			entity.setItemsTaken(l);
-			for(BookDO bookDO : list) {
-				entity.borrowBook(bookDO);
+			entity.borrowBook(list);
+			
+			for(BookDO bookDO: list) {
 				bookServices.uptade(bookDO);
 			}
-		} else {
-			list.removeAll(entity.getItemsTaken());
 			
+		} else {
+			
+			for(BookDO bookDO: entity.getItemsTaken()) {
+				list.remove(bookDO);
+			}
+			entity.borrowBook(list);
 			for(BookDO bookDO : list) {
-				entity.borrowBook(bookDO);
 				bookServices.uptade(bookDO);
 			}
 		}	
@@ -92,29 +96,14 @@ public class UserController {
 		
 		UserDO entity = userServices.findById(userDO.getKey());
 		
-		List<BookDO> list = entity.getItemsTaken();
-		// Checks if the list in userDO is null
-		// if it's null, just removes the BookDOs from the userDO
-		// if it's not null, it removes specific books from the userDO
-		if(userDO.getItemsTaken() == null) {
-			for(BookDO bookDO : list) {
-				List<BookDO> l = new ArrayList<>();
-				userDO.setItemsTaken(l);
-				userDO.returnBook(bookDO);
-				bookServices.uptade(bookDO);
-			}
-		} else {
-			list.removeAll(userDO.getItemsTaken());
+		List<BookDO> list = userDO.getItemsTaken();
+		List<BookDO> returnedBooks = entity.returnBook(list);
 			
-			for(BookDO bookDO : list) {
-				userDO.returnBook(bookDO);
-				bookServices.uptade(bookDO);
-			}
-		}
+		for(BookDO bookDO: returnedBooks) {
+			bookServices.uptade(bookDO);
+		}	
 		
-		uptade(userDO);
-		
-		return userDO;
+		return userServices.update(entity);
 	}
 	
 }
