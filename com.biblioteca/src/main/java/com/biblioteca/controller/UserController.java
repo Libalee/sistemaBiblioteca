@@ -21,6 +21,7 @@ import com.biblioteca.converter.MathConverter;
 import com.biblioteca.data.model.Book;
 import com.biblioteca.data.object.BookDO;
 import com.biblioteca.data.object.UserDO;
+import com.biblioteca.services.BookServices;
 import com.biblioteca.services.UserServices;
 
 @RestController
@@ -29,6 +30,8 @@ public class UserController {
 
 	@Autowired
 	UserServices userServices;
+	@Autowired
+	BookServices bookServices;
 	
 	@GetMapping(value = "/{id}")
 	public UserDO findById(@PathVariable("id") String id) {
@@ -69,12 +72,14 @@ public class UserController {
 			entity.setItemsTaken(l);
 			for(BookDO bookDO : list) {
 				entity.borrowBook(bookDO);
+				bookServices.uptade(bookDO);
 			}
 		} else {
 			list.removeAll(entity.getItemsTaken());
 			
 			for(BookDO bookDO : list) {
 				entity.borrowBook(bookDO);
+				bookServices.uptade(bookDO);
 			}
 		}	
 		
@@ -96,12 +101,14 @@ public class UserController {
 				List<BookDO> l = new ArrayList<>();
 				userDO.setItemsTaken(l);
 				userDO.returnBook(bookDO);
+				bookServices.uptade(bookDO);
 			}
 		} else {
 			list.removeAll(userDO.getItemsTaken());
 			
 			for(BookDO bookDO : list) {
 				userDO.returnBook(bookDO);
+				bookServices.uptade(bookDO);
 			}
 		}
 		

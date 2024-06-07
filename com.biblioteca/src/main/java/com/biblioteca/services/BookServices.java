@@ -38,7 +38,7 @@ public class BookServices {
 	}
 	
 	public BookDO uptade(BookDO bookDO) {
-		Book book = bookRepository.getReferenceById(bookDO.getKey());
+		Book book = bookRepository.findById(bookDO.getKey()).orElseThrow();
 		
 		book.setAutor(bookDO.getAutor());
 		book.setAvaliable(bookDO.isAvaliable());

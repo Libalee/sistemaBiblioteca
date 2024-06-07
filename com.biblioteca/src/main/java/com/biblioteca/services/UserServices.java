@@ -49,6 +49,8 @@ public class UserServices {
 		user.setLibraryPassoword(userDO.getLibraryPassoword());
 		user.setName(userDO.getFullName());
 		
+		userRepository.save(user);
+		
 		userDO.add(linkTo(methodOn(UserController.class).findById(user.getId().toString())).withSelfRel());
 		
 		return userDO;
