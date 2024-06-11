@@ -24,6 +24,8 @@ import com.biblioteca.data.object.UserDO;
 import com.biblioteca.services.BookServices;
 import com.biblioteca.services.UserServices;
 
+import jakarta.websocket.server.PathParam;
+
 @RestController
 @RequestMapping("/api/user/v1")
 public class UserController {
@@ -95,15 +97,64 @@ public class UserController {
 	public UserDO returnBook(@RequestBody UserDO userDO) {
 		
 		UserDO entity = userServices.findById(userDO.getKey());
-		
+		// Gets the items given in the body and allocates them in a list
 		List<BookDO> list = userDO.getItemsTaken();
+		// Uses the list to return the books and saves the returned books in another list
 		List<BookDO> returnedBooks = entity.returnBook(list);
 			
+		// Updates the returned books in the database
 		for(BookDO bookDO: returnedBooks) {
 			bookServices.uptade(bookDO);
 		}	
 		
 		return userServices.update(entity);
 	}
+	
+	@PutMapping("/reserve")
+	public UserDO reserveBook(@RequestBody UserDO userDO) {
+		
+		UserDO entity = userServices.findById(userDO.getKey());
+		
+		List<BookDO> list = userDO.getReservedItems();
+		// Checks if the list in entity is null
+		// if it's null, just adds the BookDOs to the entity
+		// if it's not null, it removes all of the repeated BookDOs before adding them the entity
+		if(entity.getReservedItems() == null) {
+			List<BookDO> l = new ArrayList<>();
+		 	entity.setItemsTaken(l);
+			entity.reserveBook(list);
+				
+			for(BookDO bookDO: list) {
+				bookServices.uptade(bookDO);
+			}
+					
+		} else {
+					
+			for(BookDO bookDO: entity.getItemsTaken()) {
+				list.remove(bookDO);
+			}
+				entity.reserveBook(list);
+			for(BookDO bookDO : list) {
+				bookServices.uptade(bookDO);
+			}
+		}
+		return userServices.update(entity);
+	}
+	
+	// TO-DO add a try catch in case the entity contains an empty list and sends a bad request error
+		@PutMapping("/reserve/unreserve")
+		public UserDO unReserveBook(@RequestBody UserDO userDO) {
+			
+			UserDO entity = userServices.findById(userDO.getKey());
+			
+			List<BookDO> list = userDO.getReservedItems();
+			List<BookDO> returnedBooks = entity.unReserveBook(list);
+				
+			for(BookDO bookDO: returnedBooks) {
+				bookServices.uptade(bookDO);
+			}	
+			
+			return userServices.update(entity);
+		}
 	
 }

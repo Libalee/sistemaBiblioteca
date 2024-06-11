@@ -159,7 +159,7 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 				&& Objects.equals(reservedItems, other.reservedItems);
 	}
 
-	// Check if there are changes made to the bookDO given to see if the operation was successful
+	// Check if there are changes made to the bookDO returned to see if the operation was successful
 	public List<BookDO> borrowBook(List<BookDO> bookDOs) {
 		
 		for(BookDO bookDO: bookDOs) {
@@ -184,7 +184,7 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 		return bookDOs;
 	}
 	
-	// Check if there are changes made to the bookDO given to see if the operation was successful
+	// Check if there are changes made to the bookDO returned to see if the operation was successful
 	public List<BookDO> returnBook(List<BookDO> bookDOs) {
 		// verifies if any of the itemsTaken's objects match with the given object
 		
@@ -212,27 +212,31 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 		return returnedBooks;
 	}
 	
-	// Check if there are changes made to the bookDO given to see if the operation was successful
-	public BookDO reserveBook(BookDO bookDO) {
-		// Checks if the bookDO isn't reserved
-		if(!(bookDO.isReserved())) {
-			this.reservedItems.add(bookDO);
-			bookDO.setReserved(true);
+	// Check if there are changes made to the bookDO returned to see if the operation was successful
+	public List<BookDO> reserveBook(List<BookDO> bookDOs) {
+		// Checks if the bookDOs in bookDOs isn't reserved
+		for(BookDO bookDO: bookDOs) {
+			if(!(bookDO.isReserved())) {
+				this.reservedItems.add(bookDO);
+				bookDO.setReserved(true);
+			}
 		}
 		
-		return bookDO;
+		return bookDOs;
 	}
 	
-	// Check if there are changes made to the BookDO given to see if the operation was successful
-	public BookDO unReserveBook(BookDO bookDO) {
-		
+	// Check if there are changes made to the BookDO returned to see if the operation was successful
+	public List<BookDO> unReserveBook(List<BookDO> bookDOs) {
+		List<BookDO> list = new ArrayList<>();
 		// verifies if any of the list's objects match with the given object
-		if(this.reservedItems.stream().anyMatch(s -> s.equals(bookDO))) {
-			this.reservedItems.remove(bookDO);
-			bookDO.setReserved(false);
+		for(BookDO reservedItem: this.reservedItems) {
+			if(!(bookDOs.contains(reservedItem))) {
+				reservedItem.setReserved(false);
+				list.add(reservedItem);
+			}
 		}
-		
-		return bookDO;
+		this.reservedItems.removeAll(list);
+		return list;
 	}
 	
 }
