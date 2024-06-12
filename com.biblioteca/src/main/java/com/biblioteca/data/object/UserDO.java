@@ -163,7 +163,11 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 	public List<BookDO> borrowBook(List<BookDO> bookDOs) {
 		
 		for(BookDO bookDO: bookDOs) {
-			if(bookDO.isAvaliable() && !(bookDO.isReserved())) {
+			
+			// Checks if the book is reserved or if it's reserved by this user
+			boolean reservedByUser = !(bookDO.isReserved()) || this.reservedItems.contains(bookDO);
+			
+			if(bookDO.isAvaliable() && reservedByUser) {
 				List<BookDO> list = getItemsTaken();
 				list.add(bookDO);
 				setItemsTaken(list);
