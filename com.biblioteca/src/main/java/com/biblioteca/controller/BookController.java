@@ -22,19 +22,21 @@ public class BookController {
 	@Autowired
 	BookServices bookServices;
 	
-	@GetMapping("/{id}")
+	@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 	public BookDO findById(@PathVariable("id") String id) {
 		var entity = bookServices.findbyID(MathConverter.convertStringToLong(id));
 		return entity;
 	}
 	
-	@PostMapping
+	@PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"},
+			consumes = {"application/json", "application/xml", "application/x-yaml"})
 	public BookDO create(@RequestBody BookDO bookDO) {
 		var entity = bookServices.create(bookDO);
 		return entity;
 	}
 	
-	@PutMapping
+	@PutMapping(produces = {"application/json", "application/xml", "application/x-yaml"},
+			consumes = {"application/json", "application/xml", "application/x-yaml"})
 	public BookDO uptade(@RequestBody BookDO bookDO) {
 		var entity = bookServices.uptade(bookDO);
 		return entity;

@@ -35,19 +35,21 @@ public class UserController {
 	@Autowired
 	BookServices bookServices;
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 	public UserDO findById(@PathVariable("id") String id) {
 		return userServices.findById(MathConverter.convertStringToLong(id));
 	}
 	
-	@PostMapping
+	@PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"},
+			consumes = {"application/json", "application/xml", "application/x-yaml"})
 	public UserDO create(@RequestBody UserDO userDO) {
 		var entity = userDO;
 		userServices.create(userDO);
 		return entity;
 	}
 	
-	@PutMapping
+	@PutMapping(produces = {"application/json", "application/xml", "application/x-yaml"},
+			consumes = {"application/json", "application/xml", "application/x-yaml"})
 	public UserDO uptade(@RequestBody UserDO userDO) {
 		var entity = userServices.update(userDO);
 		return entity;
@@ -60,7 +62,8 @@ public class UserController {
 	}
 	
 	// TO-DO add a try catch in case the userDO contains an empty list and sends a bad request error
-	@PutMapping("/borrow")
+	@PutMapping(value = "/borrow", produces = {"application/json", "application/xml", "application/x-yaml"},
+							consumes = {"application/json", "application/xml", "application/x-yaml"})
 	public UserDO borrowBook(@RequestBody UserDO userDO) {
 		
 		UserDO entity = userServices.findById(userDO.getKey());
@@ -93,7 +96,8 @@ public class UserController {
 	}
 	
 	// TO-DO add a try catch in case the entity contains an empty list and sends a bad request error
-	@PutMapping("/return")
+	@PutMapping(value = "/return", produces = {"application/json", "application/xml", "application/x-yaml"},
+									consumes = {"application/json", "application/xml", "application/x-yaml"})
 	public UserDO returnBook(@RequestBody UserDO userDO) {
 		
 		UserDO entity = userServices.findById(userDO.getKey());
@@ -110,7 +114,8 @@ public class UserController {
 		return userServices.update(entity);
 	}
 	
-	@PutMapping("/reserve")
+	@PutMapping(value = "/reserve", produces = {"application/json", "application/xml", "application/x-yaml"},
+									consumes = {"application/json", "application/xml", "application/x-yaml"})
 	public UserDO reserveBook(@RequestBody UserDO userDO) {
 		
 		UserDO entity = userServices.findById(userDO.getKey());
@@ -142,7 +147,8 @@ public class UserController {
 	}
 	
 	// TO-DO add a try catch in case the entity contains an empty list and sends a bad request error
-		@PutMapping("/reserve/unreserve")
+		@PutMapping(value = "/unreserve", produces = {"application/json", "application/xml", "application/x-yaml"},
+											consumes = {"application/json", "application/xml", "application/x-yaml"})
 		public UserDO unReserveBook(@RequestBody UserDO userDO) {
 			
 			UserDO entity = userServices.findById(userDO.getKey());
