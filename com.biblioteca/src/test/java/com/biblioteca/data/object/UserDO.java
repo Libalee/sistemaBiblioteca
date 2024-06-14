@@ -179,9 +179,8 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 				Date date = new Date(millis);
 				bookDO.setBorrowingDate(date);
 				// return date is 15 days after borrowing
-				// a variable could be put into the BookDO object called here in case different return times are needed
-				bookDO.setReturnDate(bookDO.getBorrowingDate().valueOf(
-						bookDO.getBorrowingDate().toLocalDate().plusDays(15L)));
+				Date date2 = new Date(millis + 1296000000);
+				bookDO.setReturnDate(date2);
 			}
 		}
 		
