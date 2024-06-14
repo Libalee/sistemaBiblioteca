@@ -1,19 +1,26 @@
-package com.biblioteca.testMyModelMapper;
+package com.biblioteca.data.object;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
-public class BookDO implements Serializable {
+import org.springframework.hateoas.RepresentationModel;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class BookDO extends RepresentationModel<BookDO> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	@JsonProperty("id")
+	private Long key;
 	private String name;
 	private String autor;
 	private Integer volume;
 	private boolean avaliable;
+	@JsonProperty("borrowing_date")
 	private Date borrowingDate;
+	@JsonProperty("return_date")
 	private Date returnDate;
 	private boolean reserved;
 
@@ -21,10 +28,10 @@ public class BookDO implements Serializable {
 		
 	}
 
-	public BookDO(Long id, String name, String autor, Integer volume, boolean avaliable, Date borrowingDate,
+	public BookDO(Long key, String name, String autor, Integer volume, boolean avaliable, Date borrowingDate,
 			Date returnDate, boolean reserved) {
 		super();
-		this.id = id;
+		this.key = key;
 		this.name = name;
 		this.autor = autor;
 		this.volume = volume;
@@ -94,32 +101,36 @@ public class BookDO implements Serializable {
 		return serialVersionUID;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getKey() {
+		return key;
 	}
 
 	
 	
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Long key) {
+		this.key = key;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(autor, avaliable, borrowingDate, id, name, reserved, returnDate, volume);
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ Objects.hash(autor, avaliable, borrowingDate, key, name, reserved, returnDate, volume);
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		BookDO other = (BookDO) obj;
 		return Objects.equals(autor, other.autor) && avaliable == other.avaliable
-				&& Objects.equals(borrowingDate, other.borrowingDate) && Objects.equals(id, other.id)
+				&& Objects.equals(borrowingDate, other.borrowingDate) && Objects.equals(key, other.key)
 				&& Objects.equals(name, other.name) && reserved == other.reserved
 				&& Objects.equals(returnDate, other.returnDate) && Objects.equals(volume, other.volume);
 	}

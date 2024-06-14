@@ -1,4 +1,4 @@
-package com.biblioteca.testMyModelMapper;
+package com.biblioteca.data.model;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -33,10 +33,10 @@ public class Book implements Serializable {
 	@Column(name = "avaliable", nullable = false)
 	private boolean avaliable;
 	
-	@Column(name = "borrowing_date", nullable = false)
+	@Column(name = "borrowing_date")
 	private Date borrowingDate;
 	
-	@Column(name = "return_date", nullable = false)
+	@Column(name = "return_date")
 	private Date returnDate;
 	
 	@Column(name = "reserved", nullable = false)
