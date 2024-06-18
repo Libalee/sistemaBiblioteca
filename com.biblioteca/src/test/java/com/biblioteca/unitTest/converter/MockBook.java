@@ -8,6 +8,10 @@ import com.biblioteca.data.model.Book;
 import com.biblioteca.data.object.BookDO;
 
 public class MockBook {
+	
+	public MockBook() {
+		
+	}
 
 	
 	public Book mockModel(Integer integer) {

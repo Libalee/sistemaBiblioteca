@@ -8,29 +8,35 @@ import com.biblioteca.data.object.UserDO;
 
 public class MockUser {
 	
+	public MockUser() {
+		
+	}
+	
 	public User mockModel(Integer integer) {
 		User user = new User();
+		MockBook book = new MockBook();
 		user.setName("Very Cool Name " + integer);
 		user.setFineValue(integer + 100.00);
 		user.setId(integer + 10L);
 		user.setLibraryID("user_name_" + integer);
 		user.setLibraryPassoword("strong_password_" + integer);
-		user.setItemsTaken(null);
-		user.setReservedItems(null);
+		user.setItemsTaken(book.mockModelList(integer));
+		user.setReservedItems(book.mockModelList(integer));
 		
 		return user;
 	}
 	
 	public UserDO mockObject(Integer integer) {
 		UserDO user = new UserDO();
+		MockBook book = new MockBook();
 		user.setFirstName("Very");
 		user.setLastName("Cool Name " + integer);
 		user.setFineValue(integer + 100.00);
 		user.setKey(integer + 10L);
 		user.setLibraryID("user_name_" + integer);
 		user.setLibraryPassoword("strong_password_" + integer);
-		user.setItemsTaken(null);
-		user.setReservedItems(null);
+		user.setItemsTaken(book.mockObjectList(integer));
+		user.setReservedItems(book.mockObjectList(integer));
 		
 		return user;
 	}

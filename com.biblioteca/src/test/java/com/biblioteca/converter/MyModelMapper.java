@@ -60,6 +60,7 @@ public class MyModelMapper {
 							.addMapping(User::getId, UserDO::setKey)
 							.addMapping(User::getLibraryID, UserDO::setLibraryID)
 							.addMapping(User::getLibraryPassoword, UserDO::setLibraryPassoword)
+							.addMapping(User::getFineValue, UserDO::setFineValue)
 							.addMapping(User::getItemsTaken, UserDO::setItemsTaken)
 							.addMapping(User::getReservedItems, UserDO::setReservedItems);
 							
