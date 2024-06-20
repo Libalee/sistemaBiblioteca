@@ -1,4 +1,4 @@
-package com.biblioteca.unitTest.converter;
+package com.biblioteca.unitTests.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import com.biblioteca.converter.MyModelMapper;
 import com.biblioteca.data.model.Book;
@@ -13,15 +15,16 @@ import com.biblioteca.data.model.User;
 import com.biblioteca.data.object.BookDO;
 import com.biblioteca.data.object.UserDO;
 
+@TestInstance(Lifecycle.PER_CLASS)
 class MyModelMapperTest {
 	
-	private static MockBook mockBook;
-	private static MockUser mockUser;
-	private static MyModelMapper mapper;
+	private MockBook mockBook;
+	private MockUser mockUser;
+	private MyModelMapper mapper;
 	int randomNumber;
 	
 	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
+	void setUpBeforeClass() throws Exception {
 		mockUser = new MockUser();
 		mockBook = new MockBook();
 		mapper = new MyModelMapper();
@@ -29,7 +32,7 @@ class MyModelMapperTest {
 
 	@Test
 	void testParseBookDOToBook() {
-		randomNumber = (int) Math.random();
+		randomNumber = (int) (10 * Math.random());
 		BookDO bookDO = mockBook.mockObject(randomNumber);
 		Book book = mapper.parseBookDOToBook(bookDO, Book.class);
 		
@@ -43,7 +46,7 @@ class MyModelMapperTest {
 
 	@Test
 	void testParseBookToBookDO() {
-		randomNumber = (int) Math.random();
+		randomNumber = (int) (10 * Math.random());
 		Book book = mockBook.mockModel(randomNumber);
 		BookDO bookDO = mapper.parseBookToBookDO(book, BookDO.class);
 		
@@ -57,7 +60,7 @@ class MyModelMapperTest {
 
 	@Test
 	void testParseUserDOToUser() {
-		randomNumber = (int) Math.random();
+		randomNumber = (int) (10 * Math.random());
 		UserDO userDO = mockUser.mockObject(randomNumber);
 		User user = mapper.parseUserDOToUser(userDO, User.class);
 		
@@ -74,7 +77,7 @@ class MyModelMapperTest {
 
 	@Test
 	void testParseUserToUserDO() {
-		randomNumber = (int) Math.random();
+		randomNumber = (int) (10 * Math.random());
 		User user = mockUser.mockModel(randomNumber);
 		UserDO userDO = mapper.parseUserToUserDO(user, UserDO.class);
 		
@@ -91,7 +94,7 @@ class MyModelMapperTest {
 
 	@Test
 	void testParseListBook() {
-		randomNumber = (int) Math.random();
+		randomNumber = (int) (10 * Math.random());
 		List<BookDO> bookDOs = mockBook.mockObjectList(randomNumber);
 		List<Book> books = mapper.parseListBook(bookDOs, Book.class);
 		
@@ -110,7 +113,7 @@ class MyModelMapperTest {
 
 	@Test
 	void testParseListBookDO() {
-		randomNumber = (int) Math.random();
+		randomNumber = (int) (10 * Math.random());
 		List<Book> books = mockBook.mockModelList(randomNumber);
 		List<BookDO> bookDOs = mapper.parseListBookDO(books, BookDO.class);
 		
@@ -128,7 +131,7 @@ class MyModelMapperTest {
 
 	@Test
 	void testParseListUser() {
-		randomNumber = (int) Math.random();
+		randomNumber = (int) (10 * Math.random());
 		List<UserDO> userDOs = mockUser.mockObjectList(randomNumber);
 		List<User> users = mapper.parseListUser(userDOs, User.class);
 		
@@ -150,7 +153,7 @@ class MyModelMapperTest {
 
 	@Test
 	void testParseListUserDO() {
-		randomNumber = (int) Math.random();
+		randomNumber = (int) (10 * Math.random());
 		List<User> users = mockUser.mockModelList(randomNumber);
 		List<UserDO> userDOs = mapper.parseListUserDO(users, UserDO.class);
 		

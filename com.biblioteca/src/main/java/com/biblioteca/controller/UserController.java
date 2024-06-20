@@ -1,10 +1,7 @@
 package com.biblioteca.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.biblioteca.converter.MathConverter;
-import com.biblioteca.data.model.Book;
 import com.biblioteca.data.object.BookDO;
 import com.biblioteca.data.object.UserDO;
 import com.biblioteca.services.BookServices;
 import com.biblioteca.services.UserServices;
-
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api/user/v1")
