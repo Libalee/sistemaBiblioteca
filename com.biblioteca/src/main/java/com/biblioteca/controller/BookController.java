@@ -38,13 +38,13 @@ public class BookController {
 	@PutMapping(produces = {"application/json", "application/xml", "application/x-yaml"},
 			consumes = {"application/json", "application/xml", "application/x-yaml"})
 	public BookDO uptade(@RequestBody BookDO bookDO) {
-		var entity = bookServices.uptade(bookDO);
+		var entity = bookServices.update(bookDO);
 		return entity;
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") String id) {
-		bookServices.Delete(MathConverter.convertStringToLong(id));
+		bookServices.delete(MathConverter.convertStringToLong(id));
 		return ResponseEntity.noContent().build();
 	}
 	

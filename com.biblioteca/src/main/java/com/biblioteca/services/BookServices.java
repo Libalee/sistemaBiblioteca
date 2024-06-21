@@ -37,7 +37,7 @@ public class BookServices {
 		return bookDO;
 	}
 	
-	public BookDO uptade(BookDO bookDO) {
+	public BookDO update(BookDO bookDO) {
 		Book book = bookRepository.findById(bookDO.getKey()).orElseThrow();
 		
 		book.setAutor(bookDO.getAutor());
@@ -55,9 +55,10 @@ public class BookServices {
 		return bookDO2;
 	}
 	
-	public void Delete(Long id) {
+	public void delete(Long id) {
 		Book entity = bookRepository.findById(id).orElseThrow();
 		bookRepository.delete(entity);
 	}
+
 	
 }

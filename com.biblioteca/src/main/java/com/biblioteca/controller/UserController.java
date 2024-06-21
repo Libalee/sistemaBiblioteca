@@ -72,7 +72,7 @@ public class UserController {
 			entity.borrowBook(list);
 			
 			for(BookDO bookDO: list) {
-				bookServices.uptade(bookDO);
+				bookServices.update(bookDO);
 			}
 			
 		} else {
@@ -82,7 +82,7 @@ public class UserController {
 			}
 			entity.borrowBook(list);
 			for(BookDO bookDO : list) {
-				bookServices.uptade(bookDO);
+				bookServices.update(bookDO);
 			}
 		}	
 		
@@ -102,7 +102,7 @@ public class UserController {
 			
 		// Updates the returned books in the database
 		for(BookDO bookDO: returnedBooks) {
-			bookServices.uptade(bookDO);
+			bookServices.update(bookDO);
 		}	
 		
 		return userServices.update(entity);
@@ -124,7 +124,7 @@ public class UserController {
 			entity.reserveBook(list);
 				
 			for(BookDO bookDO: list) {
-				bookServices.uptade(bookDO);
+				bookServices.update(bookDO);
 			}
 					
 		} else {
@@ -134,7 +134,7 @@ public class UserController {
 			}
 				entity.reserveBook(list);
 			for(BookDO bookDO : list) {
-				bookServices.uptade(bookDO);
+				bookServices.update(bookDO);
 			}
 		}
 		return userServices.update(entity);
@@ -151,7 +151,7 @@ public class UserController {
 			List<BookDO> returnedBooks = entity.unReserveBook(list);
 				
 			for(BookDO bookDO: returnedBooks) {
-				bookServices.uptade(bookDO);
+				bookServices.update(bookDO);
 			}	
 			
 			return userServices.update(entity);

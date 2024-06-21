@@ -45,7 +45,21 @@ class BookServicesTest {
 
 	@Test
 	void testCreate() {
-		fail("Not yet implemented");
+		randomNumber = (int) (10 * Math.random());
+		Book book = mockBook.mockModel(randomNumber);
+		BookDO bookDO = mockBook.mockObject(randomNumber);
+		
+		when(repository.save(book)).thenReturn(book);
+		
+		var result = services.create(bookDO);
+		
+		assertNotNull(result);
+		assertEquals(book.getAutor(), result.getAutor());
+		assertEquals(book.getBorrowingDate(), result.getBorrowingDate());
+		assertEquals(book.getId(), result.getKey());
+		assertEquals(book.getName(), result.getName());
+		assertEquals(book.getReturnDate(), result.getReturnDate());
+		assertEquals(book.getVolume(), result.getVolume());
 	}
 
 	@Test
@@ -64,18 +78,37 @@ class BookServicesTest {
 		assertEquals(book.getName(), result.getName());
 		assertEquals(book.getReturnDate(), result.getReturnDate());
 		assertEquals(book.getVolume(), result.getVolume());
-		
-		System.out.println(result.toString());
 	}
 
 	@Test
 	void testUptade() {
-		fail("Not yet implemented");
+		randomNumber = (int) (10 * Math.random());
+		Book book = mockBook.mockModel(randomNumber);
+		BookDO bookDO = mockBook.mockObject(randomNumber);
+		
+		when(repository.findById(bookDO.getKey())).thenReturn(Optional.of(book));
+		when(repository.save(book)).thenReturn(book);
+		
+		var result = services.update(bookDO);
+		
+		assertNotNull(result);
+		assertEquals(book.getAutor(), result.getAutor());
+		assertEquals(book.getBorrowingDate(), result.getBorrowingDate());
+		assertEquals(book.getId(), result.getKey());
+		assertEquals(book.getName(), result.getName());
+		assertEquals(book.getReturnDate(), result.getReturnDate());
+		assertEquals(book.getVolume(), result.getVolume());
 	}
 
 	@Test
 	void testDelete() {
-		fail("Not yet implemented");
+		randomNumber = (int) (10 * Math.random());
+		Book book = mockBook.mockModel(randomNumber);
+		BookDO bookDO = mockBook.mockObject(randomNumber);
+		
+		when(repository.findById(bookDO.getKey())).thenReturn(Optional.of(book));
+		
+		services.delete(book.getId());
 	}
 
 }
