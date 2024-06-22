@@ -22,9 +22,7 @@ public class BookServices {
 	public BookDO create(BookDO bookDO) {
 		Book entity = mapper.parseBookDOToBook(bookDO, Book.class);
 		bookRepository.save(entity);
-		
-		bookDO.add(linkTo(methodOn(BookController.class).findById(entity.getId().toString())).withSelfRel());
-		
+	
 		return bookDO;
 	}
 	
@@ -32,7 +30,6 @@ public class BookServices {
 		var entity = bookRepository.findById(Id).orElseThrow();
 		
 		BookDO bookDO = mapper.parseBookToBookDO(entity, BookDO.class);
-		bookDO.add(linkTo(methodOn(BookController.class).findById(entity.getId().toString())).withSelfRel());
 		
 		return bookDO;
 	}
@@ -49,8 +46,6 @@ public class BookServices {
 		book.setVolume(bookDO.getVolume());
 		
 		BookDO bookDO2 = mapper.parseBookToBookDO(bookRepository.save(book), BookDO.class) ;
-		
-		bookDO2.add(linkTo(methodOn(BookController.class).findById(book.getId().toString())).withSelfRel());
 		
 		return bookDO2;
 	}

@@ -1,5 +1,8 @@
 package com.biblioteca.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +28,7 @@ public class BookController {
 	@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 	public BookDO findById(@PathVariable("id") String id) {
 		var entity = bookServices.findbyID(MathConverter.convertStringToLong(id));
+		entity.add(linkTo(methodOn(BookController.class).findById(entity.getKey().toString())).withSelfRel());
 		return entity;
 	}
 	
@@ -32,6 +36,7 @@ public class BookController {
 			consumes = {"application/json", "application/xml", "application/x-yaml"})
 	public BookDO create(@RequestBody BookDO bookDO) {
 		var entity = bookServices.create(bookDO);
+		entity.add(linkTo(methodOn(BookController.class).findById(entity.getKey().toString())).withSelfRel());
 		return entity;
 	}
 	
@@ -39,6 +44,7 @@ public class BookController {
 			consumes = {"application/json", "application/xml", "application/x-yaml"})
 	public BookDO uptade(@RequestBody BookDO bookDO) {
 		var entity = bookServices.update(bookDO);
+		entity.add(linkTo(methodOn(BookController.class).findById(entity.getKey().toString())).withSelfRel());
 		return entity;
 	}
 	

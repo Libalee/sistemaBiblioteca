@@ -24,18 +24,14 @@ public class UserServices {
 	public UserDO create(UserDO userDO) {
 		User entity = mapper.parseUserDOToUser(userDO, User.class);
 		userRepository.save(entity);
-		
-		userDO.add(linkTo(methodOn(UserController.class).findById(entity.getId().toString())).withSelfRel());
-		
+
 		return userDO;
 	}
 	
 	public UserDO findById(Long Id) {
 		var entity = userRepository.findById(Id).orElseThrow();
 		UserDO userDO = mapper.parseUserToUserDO(entity, UserDO.class);
-		
-		userDO.add(linkTo(methodOn(UserController.class).findById(entity.getId().toString())).withSelfRel());
-		
+
 		return userDO;
 	}
 	
@@ -50,9 +46,7 @@ public class UserServices {
 		user.setName(userDO.getFullName());
 		
 		userRepository.save(user);
-		
-		userDO.add(linkTo(methodOn(UserController.class).findById(user.getId().toString())).withSelfRel());
-		
+
 		return userDO;
 	}
 	
