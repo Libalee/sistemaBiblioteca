@@ -1,11 +1,10 @@
 package com.biblioteca.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.biblioteca.controller.BookController;
 import com.biblioteca.converter.MyModelMapper;
 import com.biblioteca.data.model.Book;
 import com.biblioteca.data.object.BookDO;
@@ -18,6 +17,11 @@ public class BookServices {
 	BookRepository bookRepository;
 	
 	MyModelMapper mapper = new MyModelMapper();
+	
+	public Page<BookDO> findAll(Pageable pageable) {
+		var page = bookRepository.findAll(pageable);
+		return page.map(entityBook -> mapper.parseBookToBookDO(entityBook, BookDO.class));
+	}
 	
 	public BookDO create(BookDO bookDO) {
 		Book entity = mapper.parseBookDOToBook(bookDO, Book.class);

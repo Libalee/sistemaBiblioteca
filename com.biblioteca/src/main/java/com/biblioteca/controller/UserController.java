@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.biblioteca.converter.MathConverter;
@@ -32,19 +38,56 @@ public class UserController {
 	@Autowired
 	BookServices bookServices;
 	
+	@GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
+	public Page<UserDO> findAll(
+				@RequestParam(value= "page", defaultValue = "0") int page,
+				@RequestParam(value= "limit", defaultValue = "20") int limit,
+				@RequestParam(value= "direction", defaultValue = "asc") String direction
+			) {
+		
+		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+		
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "name"));
+		
+		Page<UserDO> userDOs = userServices.findAll(pageable);
+		
+		userDOs.stream().forEach(entity -> {
+			entity.add(
+					linkTo(methodOn(UserController.class).findById(entity.getKey().toString())).withSelfRel());
+			
+			if(entity.getItemsTaken() != null) {
+				for(BookDO bookDO: entity.getItemsTaken()) {
+					entity.
+					add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
+					
+				}
+			}
+			// Adds link references for the books contained in the User object
+			if(entity.getReservedItems() != null) {
+				for(BookDO bookDO: entity.getReservedItems()) {
+					entity.
+					add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
+					
+				}
+			}
+			});
+		
+		return userDOs;
+	}
+	
 	@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 	public UserDO findById(@PathVariable("id") String id) {
 		var entity = userServices.findById(MathConverter.convertStringToLong(id));
 		entity.add(linkTo(methodOn(UserController.class).findById(entity.getKey().toString())).withSelfRel());
 		// Adds link references for the books contained in the User object
-		if(entity.getItemsTaken() == null) {
+		if(entity.getItemsTaken() != null) {
 			for(BookDO bookDO: entity.getItemsTaken()) {
 				entity.add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
 				
 			}
 		}
 		// Adds link references for the books contained in the User object
-		if(entity.getReservedItems() == null) {
+		if(entity.getReservedItems() != null) {
 			for(BookDO bookDO: entity.getReservedItems()) {
 				entity.add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
 				
@@ -59,14 +102,14 @@ public class UserController {
 		var entity = userServices.create(userDO);
 		entity.add(linkTo(methodOn(UserController.class).findById(entity.getKey().toString())).withSelfRel());
 		// Adds link references for the books contained in the User object
-		if(entity.getItemsTaken() == null) {
+		if(entity.getItemsTaken() != null) {
 			for(BookDO bookDO: entity.getItemsTaken()) {
 				entity.add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
 				
 			}
 		}
 		// Adds link references for the books contained in the User object
-		if(entity.getReservedItems() == null) {
+		if(entity.getReservedItems() != null) {
 			for(BookDO bookDO: entity.getReservedItems()) {
 				entity.add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
 				
@@ -81,14 +124,14 @@ public class UserController {
 		var entity = userServices.update(userDO);
 		entity.add(linkTo(methodOn(UserController.class).findById(entity.getKey().toString())).withSelfRel());
 		// Adds link references for the books contained in the User object
-		if(entity.getItemsTaken() == null) {
+		if(entity.getItemsTaken() != null) {
 			for(BookDO bookDO: entity.getItemsTaken()) {
 				entity.add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
 				
 			}
 		}
 		// Adds link references for the books contained in the User object
-		if(entity.getReservedItems() == null) {
+		if(entity.getReservedItems() != null) {
 			for(BookDO bookDO: entity.getReservedItems()) {
 				entity.add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
 				
@@ -159,14 +202,14 @@ public class UserController {
 			bookServices.update(bookDO);
 		}	
 		// Adds link references for the books contained in the User object
-		if(entity.getItemsTaken() == null) {
+		if(entity.getItemsTaken() != null) {
 			for(BookDO bookDO: entity.getItemsTaken()) {
 				entity.add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
 				
 			}
 		}
 		// Adds link references for the books contained in the User object
-		if(entity.getReservedItems() == null) {
+		if(entity.getReservedItems() != null) {
 			for(BookDO bookDO: entity.getReservedItems()) {
 				entity.add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
 			}
@@ -185,7 +228,7 @@ public class UserController {
 		// Checks if the list in entity is null
 		// if it's null, just adds the BookDOs to the entity
 		// if it's not null, it removes all of the repeated BookDOs before adding them the entity
-		if(entity.getReservedItems() == null) {
+		if(entity.getReservedItems() != null) {
 			List<BookDO> l = new ArrayList<>();
 		 	entity.setItemsTaken(l);
 			entity.reserveBook(list);
@@ -226,14 +269,14 @@ public class UserController {
 			}	
 			
 			// Adds link references for the books contained in the User object
-			if(entity.getItemsTaken() == null) {
+			if(entity.getItemsTaken() != null) {
 				for(BookDO bookDO: entity.getItemsTaken()) {
 					entity.add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
 					
 				}
 			}
 			// Adds link references for the books contained in the User object
-			if(entity.getReservedItems() == null) {
+			if(entity.getReservedItems() != null) {
 				for(BookDO bookDO: entity.getReservedItems()) {
 					entity.add(linkTo(methodOn(BookController.class).findById(bookDO.getKey().toString())).withSelfRel());
 				}
