@@ -181,6 +181,8 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 				// return date is 15 days after borrowing
 				Date date2 = new Date(millis + 1296000000);
 				bookDO.setReturnDate(date2);
+				
+				bookDO.setUserWithTheBook(this);
 			}
 		}
 		
@@ -197,6 +199,7 @@ public class UserDO extends RepresentationModel<UserDO> implements Serializable{
 			if(!(bookDOs.contains(bookDO))) {
 				bookDO.setAvaliable(true);
 				bookDO.setBorrowingDate(null);
+				bookDO.setUserWithTheBook(null);
 				
 				Long millis = System.currentTimeMillis();
 				Date date = new Date(millis);

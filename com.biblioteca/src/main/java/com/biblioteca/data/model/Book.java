@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
@@ -41,13 +43,19 @@ public class Book implements Serializable {
 	
 	@Column(name = "reserved", nullable = false)
 	private boolean reserved;
+	
+	@OneToOne
+	@PrimaryKeyJoinColumn(name = "user_with_the_book")
+	private User userWithTheBook;
 
 	public Book() {
 		
 	}
 
+	
+
 	public Book(Long id, String name, String autor, Integer volume, boolean avaliable, Date borrowingDate,
-			Date returnDate, boolean reserved) {
+			Date returnDate, boolean reserved, User userWithTheBook) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -57,7 +65,10 @@ public class Book implements Serializable {
 		this.borrowingDate = borrowingDate;
 		this.returnDate = returnDate;
 		this.reserved = reserved;
+		this.userWithTheBook = userWithTheBook;
 	}
+
+
 
 	public String getName() {
 		return name;
@@ -123,16 +134,30 @@ public class Book implements Serializable {
 		return id;
 	}
 	
-	
-
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
+
+	public User getUserWithTheBook() {
+		return userWithTheBook;
+	}
+
+
+
+	public void setUserWithTheBook(User userWithTheBook) {
+		this.userWithTheBook = userWithTheBook;
+	}
+
+
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(autor, avaliable, borrowingDate, id, name, reserved, returnDate, volume);
+		return Objects.hash(autor, avaliable, borrowingDate, id, name, reserved, returnDate, userWithTheBook, volume);
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -146,8 +171,12 @@ public class Book implements Serializable {
 		return Objects.equals(autor, other.autor) && avaliable == other.avaliable
 				&& Objects.equals(borrowingDate, other.borrowingDate) && Objects.equals(id, other.id)
 				&& Objects.equals(name, other.name) && reserved == other.reserved
-				&& Objects.equals(returnDate, other.returnDate) && Objects.equals(volume, other.volume);
+				&& Objects.equals(returnDate, other.returnDate)
+				&& Objects.equals(userWithTheBook, other.userWithTheBook) && Objects.equals(volume, other.volume);
 	}
+
+
+
 	
 	
 	

@@ -23,13 +23,16 @@ public class BookDO extends RepresentationModel<BookDO> implements Serializable 
 	@JsonProperty("return_date")
 	private Date returnDate;
 	private boolean reserved;
+	private UserDO userWithTheBook;
 
 	public BookDO() {
 		
 	}
 
+	
+
 	public BookDO(Long key, String name, String autor, Integer volume, boolean avaliable, Date borrowingDate,
-			Date returnDate, boolean reserved) {
+			Date returnDate, boolean reserved, UserDO userWithTheBook) {
 		super();
 		this.key = key;
 		this.name = name;
@@ -39,7 +42,10 @@ public class BookDO extends RepresentationModel<BookDO> implements Serializable 
 		this.borrowingDate = borrowingDate;
 		this.returnDate = returnDate;
 		this.reserved = reserved;
+		this.userWithTheBook = userWithTheBook;
 	}
+
+
 
 	public String getName() {
 		return name;
@@ -104,21 +110,35 @@ public class BookDO extends RepresentationModel<BookDO> implements Serializable 
 	public Long getKey() {
 		return key;
 	}
-
-	
 	
 	public void setKey(Long key) {
 		this.key = key;
 	}
 
+	
+	
+	public UserDO getUserWithTheBook() {
+		return userWithTheBook;
+	}
+
+
+
+	public void setUserWithTheBook(UserDO userWithTheBook) {
+		this.userWithTheBook = userWithTheBook;
+	}
+
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result
-				+ Objects.hash(autor, avaliable, borrowingDate, key, name, reserved, returnDate, volume);
+		result = prime * result + Objects.hash(autor, avaliable, borrowingDate, key, name, reserved, returnDate,
+				userWithTheBook, volume);
 		return result;
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -132,8 +152,11 @@ public class BookDO extends RepresentationModel<BookDO> implements Serializable 
 		return Objects.equals(autor, other.autor) && avaliable == other.avaliable
 				&& Objects.equals(borrowingDate, other.borrowingDate) && Objects.equals(key, other.key)
 				&& Objects.equals(name, other.name) && reserved == other.reserved
-				&& Objects.equals(returnDate, other.returnDate) && Objects.equals(volume, other.volume);
+				&& Objects.equals(returnDate, other.returnDate)
+				&& Objects.equals(userWithTheBook, other.userWithTheBook) && Objects.equals(volume, other.volume);
 	}
+
+
 
 	
 	

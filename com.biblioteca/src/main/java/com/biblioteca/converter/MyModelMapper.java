@@ -33,7 +33,8 @@ public class MyModelMapper {
 							.addMapping(BookDO::getVolume, Book::setVolume)
 							.addMapping(BookDO::getKey, Book::setId)
 							.addMapping(BookDO::isAvaliable, Book::setAvaliable)
-							.addMapping(BookDO::isReserved, Book::setReserved);
+							.addMapping(BookDO::isReserved, Book::setReserved)
+							.addMapping(BookDO::getUserWithTheBook, Book::setUserWithTheBook);
 		
 		// Setting up the converter from Book to BookDO
 		typeMapBookToBookDO.addMapping(Book::getAutor, BookDO::setAutor)
@@ -43,7 +44,8 @@ public class MyModelMapper {
 							.addMapping(Book::getName, BookDO::setName) 
 							.addMapping(Book::getVolume, BookDO::setVolume)
 							.addMapping(Book::isAvaliable, BookDO::setAvaliable)
-							.addMapping(Book::isReserved, BookDO::setReserved);
+							.addMapping(Book::isReserved, BookDO::setReserved)
+							.addMapping(Book::getUserWithTheBook, BookDO::setUserWithTheBook);
 		
 		// Setting up the converter from UserDO to User
 		typeMapUserDOToUser.addMapping(UserDO::getFullName, User::setName)
